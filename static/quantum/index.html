@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPC visualizer · quantum (surface-code syndromes)</title>
+    <link rel="stylesheet" href="/static/shell.css">
+    <link rel="stylesheet" href="/static/quantum/tab.css">
+</head>
+<body>
+
+<nav id="tab-nav">
+    <a href="/" class="tab-home">MPC</a>
+    <a href="/tab/brain" class="tab-link">brain · maze</a>
+    <a href="/tab/glass" class="tab-link">glass · aging</a>
+    <a href="/tab/quantum" class="tab-link active">quantum · syndromes</a>
+    <a href="/tab/cross" class="tab-link">cross · glass + quantum</a>
+</nav>
+
+<header>
+    <h1>quantum<span class="dim"> · surface-code syndromes · v8 multi-window FDR</span></h1>
+    <div class="meta">
+        <span id="status-dot" class="dot"></span>
+        <span id="status-text">connecting…</span>
+        <span class="sep">·</span>
+        <span id="round-counter">round 0</span>
+    </div>
+</header>
+
+<main class="quantum-main">
+
+    <!-- ========= PRIMARY: substrate-conditional regime over time ========= -->
+    <section class="ribbon-card primary-stack">
+
+        <div class="primary-card">
+            <h3 class="panel-title">regime over time · v8 §5 hierarchy on the τ-axis <span class="badge primary">primary · v8 §5 + F-018</span></h3>
+            <p class="panel-blurb">
+                Each row is a kernel width τ (narrowest at top, widest at bottom);
+                cell colour at (τ, dt) is the v8 regime read from
+                <em>f = ΔC_d / C_d_diag</em> (fractional decorrelation).
+                <strong>FOOTING F-018 (substrate-conditional reading).</strong>
+                On surface-code syndromes the v8 §5 hierarchy walks the
+                τ-axis <em>inverted</em> from v8 §5's prose:
+                narrow τ &laquo; τ_event reads
+                <span style="color:#ff7b72">r_like</span> (kernel below event
+                scale, sees iid Bernoulli noise);
+                meso τ &sim; τ_event reads
+                <span style="color:#7ee787">s_like</span> (aging in progress);
+                broad τ &raquo; τ_event reads
+                <span style="color:#79c0ff">c_like</span> (memory dominates).
+                τ_event &sim; 1/p_eff. The v8 hierarchy itself is preserved;
+                only the τ-direction is substrate-conditional.
+                <span style="color:#d2a8ff">k_like</span> ↔ sustained
+                negative χ_d (frustration on the syndrome graph; topological,
+                kernel-invariant).
+            </p>
+            <div id="regime-timeline" class="regime-timeline"></div>
+        </div>
+
+        <div class="primary-card">
+            <h3 class="panel-title">f(t) per window · fractional decorrelation <span class="badge primary">primary · v8 §5</span></h3>
+            <p class="panel-blurb">
+                <em>f = ΔC_d / C_d_diag</em>: dimensionless invariant of the
+                trail-vector locus. <strong>0 = full memory</strong>
+                (c-locus apex), <strong>1 = full decorrelation</strong>
+                (FDT-line traversal). The classifier thresholds at
+                f &lt; 0.20 (c_like), 0.20–0.70 (s_like), &ge; 0.70 (r_like).
+                Reading down the windows at fixed dt traces the
+                substrate-conditional hierarchy direction.
+            </p>
+            <div id="f-panel" class="f-panel"></div>
+        </div>
+
+    </section>
+
+    <!-- ========= SIDE: substrate state, locus, calibration, derived views ========= -->
+    <section class="side-panel">
+
+        <div class="status-card">
+            <h3 class="panel-title">run config</h3>
+            <pre id="run-config" class="run-config">—</pre>
+        </div>
+
+        <div class="status-card">
+            <h3 class="panel-title">status & calibration</h3>
+            <div id="status-message" class="status-message">awaiting first event…</div>
+            <div id="calibration-display" class="calibration-display">MPA self-calibration: awaiting samples…</div>
+        </div>
+
+        <div class="status-card">
+            <h3 class="panel-title">substrate state · syndrome operating point <span class="badge primary">substrate</span></h3>
+            <p class="panel-blurb compact">
+                <strong>detection rate</strong> at p_base / p_pert — the
+                operating-point indicator (~0 in deep-c regime, climbs toward
+                threshold). <strong>drift</strong> = base − base_at_t_w; near
+                zero in steady state, signals whether the EMA has settled.
+            </p>
+            <div id="substrate-panel" class="substrate-panel"></div>
+        </div>
+
+        <div class="status-card">
+            <h3 class="panel-title">trail dynamics · ‖d‖ and σ_d per window <span class="badge primary">trail</span></h3>
+            <p class="panel-blurb compact">
+                <strong>‖d_unp[k]‖(t)</strong> on log–log: trail accumulation
+                per window. <strong>σ_d</strong>: spatial std across stabilisers
+                (heterogeneity proxy). When σ_d &raquo; |⟨d⟩| the trail is
+                spatially incoherent; when σ_d → 0 stabilisers are locked.
+            </p>
+            <div id="trail-panel" class="trail-panel"></div>
+        </div>
+
+        <div class="status-card">
+            <h3 class="panel-title">parametric (ΔC_d, χ_d) locus <span class="badge derived">derived</span></h3>
+            <p class="panel-blurb compact">
+                CK-style phase portrait per window. The empirical trajectory
+                is what the classifier reads as f. Window picker selects τ.
+            </p>
+            <div id="locus-2d" class="locus-2d"></div>
+            <div class="toggle-row">
+                <label class="toggle"><input type="checkbox" id="toggle-empirical" checked> empirical</label>
+                <label class="toggle"><input type="checkbox" id="toggle-regime-color" checked> regime-colour</label>
+                <label class="toggle"><input type="checkbox" id="toggle-fdt"> FDT axis</label>
+                <label class="window-pick">τ:
+                    <select id="window-select"><option value="0">(loading)</option></select>
+                </label>
+            </div>
+        </div>
+
+        <div class="status-card">
+            <h3 class="panel-title">3D ribbon · windows stacked on Z = log₁₀(τ/dt) <span class="badge derived">derived</span></h3>
+            <div id="ribbon-3d" class="ribbon-3d"></div>
+        </div>
+
+        <div class="event-log">
+            <h3 class="panel-title">events</h3>
+            <ul id="event-list"></ul>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="controls">
+        <label>distance <input type="number" id="distance-input" min="3" max="9" step="2" value="3"></label>
+        <label>p_base <input type="number" id="pbase-input" min="0" max="0.05" step="0.0001" value="0.001"></label>
+        <label>Δp <input type="number" id="deltap-input" min="0" max="0.05" step="0.0001" value="0.001"></label>
+        <label>n_shots <input type="number" id="nshots-input" min="32" max="4096" step="32" value="256"></label>
+        <label>t_w <input type="number" id="tw-input" min="10" max="100000" step="10" value="200"></label>
+        <label>t_obs <input type="number" id="tobs-input" min="100" max="100000" step="100" value="1800"></label>
+        <label>τ windows <input type="text" id="tau-input" value="3,10,30,100,300,1000" size="22"></label>
+        <label>seed <input type="number" id="seed-input" min="0" max="1000000" step="1" value="1"></label>
+        <button id="restart-btn">run</button>
+    </div>
+    <div class="legend">
+        <span class="leg c-regime">c_like · memory dominates (broad τ)</span>
+        <span class="leg s-regime">s_like · aging</span>
+        <span class="leg r-regime">r_like · iid (narrow τ)</span>
+        <span class="leg k-regime">k_like · k_frust</span>
+        <span class="leg n-regime">noise floor</span>
+    </div>
+</footer>
+
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+<script src="/static/quantum/tab.js"></script>
+
+</body>
+</html>

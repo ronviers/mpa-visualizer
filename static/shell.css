@@ -1,0 +1,104 @@
+/* shell.css — top-level styles shared by every tab page.
+ *
+ * Tab pages bring their own tab.css with substrate-specific styles. shell.css
+ * only contributes the cross-tab nav + page background defaults so the tab
+ * styles take precedence below it. */
+
+:root {
+    --shell-bg: #0d1117;
+    --shell-bg-2: #161b22;
+    --shell-fg: #e6edf3;
+    --shell-dim: #7d8590;
+    --shell-accent: #79c0ff;
+    --shell-grid: #30363d;
+}
+
+html, body { background: var(--shell-bg); color: var(--shell-fg); }
+
+/* Tab nav. Sits at the very top of every tab page, before <header>. */
+nav#tab-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.45rem 1.1rem;
+    background: #0a0e14;
+    border-bottom: 1px solid var(--shell-grid);
+    font-size: 0.9rem;
+}
+nav#tab-nav .tab-home {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--shell-fg);
+    text-decoration: none;
+    padding: 0.25rem 0.55rem;
+    border-radius: 4px;
+    background: var(--shell-bg-2);
+    margin-right: 0.4rem;
+}
+nav#tab-nav .tab-link {
+    color: var(--shell-dim);
+    text-decoration: none;
+    padding: 0.25rem 0.7rem;
+    border-radius: 4px;
+    transition: color 0.12s, background 0.12s;
+}
+nav#tab-nav .tab-link:hover {
+    color: var(--shell-fg);
+    background: var(--shell-bg-2);
+}
+nav#tab-nav .tab-link.active {
+    color: var(--shell-fg);
+    background: var(--shell-bg-2);
+    border: 1px solid var(--shell-grid);
+}
+
+/* Hub page — the / route lists all available tabs. */
+.shell-hub {
+    max-width: 720px;
+    margin: 4rem auto 2rem;
+    padding: 0 1.5rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+}
+.shell-hub h1 {
+    font-size: 1.6rem;
+    margin: 0 0 0.5rem;
+}
+.shell-hub h1 .dim { color: var(--shell-dim); font-weight: 400; }
+.shell-hub p.lead {
+    color: var(--shell-dim);
+    line-height: 1.55;
+    margin: 0 0 2rem;
+}
+.shell-hub ul.tab-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.7rem;
+}
+.shell-hub ul.tab-list li {
+    background: var(--shell-bg-2);
+    border: 1px solid var(--shell-grid);
+    border-radius: 6px;
+    padding: 0.9rem 1.1rem;
+    transition: border-color 0.12s;
+}
+.shell-hub ul.tab-list li:hover {
+    border-color: var(--shell-accent);
+}
+.shell-hub ul.tab-list li a {
+    display: block;
+    color: var(--shell-fg);
+    text-decoration: none;
+}
+.shell-hub ul.tab-list li .tab-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+.shell-hub ul.tab-list li .tab-blurb {
+    color: var(--shell-dim);
+    font-size: 0.88rem;
+    margin-top: 0.25rem;
+    line-height: 1.5;
+}

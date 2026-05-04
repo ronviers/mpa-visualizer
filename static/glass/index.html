@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPC visualizer · glass (3D EA aging)</title>
+    <link rel="stylesheet" href="/static/shell.css">
+    <link rel="stylesheet" href="/static/glass/tab.css">
+</head>
+<body>
+
+<nav id="tab-nav">
+    <a href="/" class="tab-home">MPC</a>
+    <a href="/tab/brain" class="tab-link">brain · maze</a>
+    <a href="/tab/glass" class="tab-link active">glass · aging</a>
+    <a href="/tab/quantum" class="tab-link">quantum · syndromes</a>
+    <a href="/tab/cross" class="tab-link">cross · glass + quantum</a>
+</nav>
+
+<header>
+    <h1>glass<span class="dim"> · 3D EA aging · MPA on substrate state</span></h1>
+    <div class="meta">
+        <span id="status-dot" class="dot"></span>
+        <span id="status-text">connecting…</span>
+        <span class="sep">·</span>
+        <span id="sweep-counter">sweep 0</span>
+    </div>
+</header>
+
+<main class="glass-main">
+
+    <!-- ========= PRIMARY: MPA reading substrate state on the time axis ========= -->
+    <section class="ribbon-card primary-stack">
+
+        <div class="primary-card">
+            <h3 class="panel-title">regime over time · MPA on the τ_obs hierarchy <span class="badge primary">primary · v8 §5</span></h3>
+            <p class="panel-blurb">
+                Each row is a window τ_obs (narrowest at top, widest at bottom).
+                Colour at each (window, dt) cell is what MPA reads at that
+                scale at that moment.
+                <strong>v8 §5 prediction</strong>: the hierarchy migrates
+                monotonically — at any fixed dt, narrow windows read
+                <span style="color:#79c0ff">c</span>, mid windows read
+                <span style="color:#7ee787">s</span>, wide windows read
+                <span style="color:#ff7b72">r</span>. Non-monotonic stripes,
+                or bands that don't migrate with τ_obs, falsify v8 §5 on
+                this substrate.
+            </p>
+            <div id="regime-timeline" class="regime-timeline"></div>
+        </div>
+
+        <div class="primary-card">
+            <h3 class="panel-title">λ_A(t) per window · MPA's classifier input <span class="badge primary">primary · v8 §2</span></h3>
+            <p class="panel-blurb">
+                v8 §2 classifies regime on the trail's stability rate
+                <em>λ_A = −d/dt ln‖d_A‖</em>: <strong>λ_A &lt; 0</strong> ↔
+                amplifying / committed; <strong>≈ 0</strong> ↔ marginally
+                stable / suspended; <strong>&gt; 0</strong> ↔ decaying /
+                reset. We compute it as a rolling-window log-derivative of
+                ‖d_unp[k]‖ from the substrate. <strong>No absolute
+                thresholds drawn</strong> — κ⁻¹Φ\* is uncalibrated for glass.
+                Read the curves' ordering: as τ_obs widens, λ_A should trend
+                more positive (less stable), which is the F-009 hierarchy
+                migration on the trail-vector level.
+            </p>
+            <div id="lambda-panel" class="lambda-panel"></div>
+        </div>
+
+    </section>
+
+    <!-- ========= SIDE: substrate state, trail dynamics, derived views ========= -->
+    <section class="side-panel">
+
+        <div class="status-card">
+            <h3 class="panel-title">run config</h3>
+            <pre id="run-config" class="run-config">—</pre>
+        </div>
+
+        <div class="status-card">
+            <h3 class="panel-title">status & calibration</h3>
+            <div id="status-message" class="status-message">awaiting first event…</div>
+            <div id="calibration-display" class="calibration-display">MPA self-calibration: awaiting samples…</div>
+        </div>
+
+        <div class="status-card">
+            <h3 class="panel-title">substrate state · primary <span class="badge primary">substrate</span></h3>
+            <p class="panel-blurb compact">
+                <strong>C(t, t_w)</strong> saturates at q_EA;
+                <strong>q_initial</strong> decorrelates;
+                <strong>energy/N</strong> descends if aging;
+                <strong>⟨s⟩</strong> ~0 in glass phase.
+            </p>
+            <div id="substrate-panel" class="substrate-panel"></div>
+        </div>
+
+        <div class="status-card">
+            <h3 class="panel-title">trail dynamics · ‖d‖ and R(t) per window <span class="badge primary">trail</span></h3>
+            <p class="panel-blurb compact">
+                <strong>‖d_unp[k]‖(t)</strong> on log–log: trail accumulation
+                per window (slope = λ_A directly).
+                <strong>R(t)</strong>: FDR ratio per window — validation
+                layer, not the classifier.
+            </p>
+            <div id="trail-panel" class="trail-panel"></div>
+        </div>
+
+        <div class="status-card">
+            <h3 class="panel-title">parametric (ΔC, χ) ribbon <span class="badge derived">derived</span></h3>
+            <p class="panel-blurb compact">
+                CK-style parametric phase portrait — a derived view of the
+                trajectory above. Window picker selects τ_obs.
+            </p>
+            <div id="falsification-2d" class="ribbon-2d falsification-2d"></div>
+            <div class="toggle-row">
+                <label class="toggle"><input type="checkbox" id="toggle-empirical" checked> empirical</label>
+                <label class="toggle"><input type="checkbox" id="toggle-envelope" checked> envelope</label>
+                <label class="toggle"><input type="checkbox" id="toggle-fdt" checked> FDT</label>
+                <label class="toggle"><input type="checkbox" id="toggle-regime-color" checked> regime-colour</label>
+                <label class="toggle"><input type="checkbox" id="toggle-error-view"> error view</label>
+                <label class="window-pick">τ_obs:
+                    <select id="window-select"><option value="0">(loading)</option></select>
+                </label>
+            </div>
+        </div>
+
+        <div class="status-card">
+            <h3 class="panel-title">3D ribbon · windows stacked <span class="badge derived">derived</span></h3>
+            <div id="ribbon-3d" class="ribbon-3d"></div>
+        </div>
+
+        <div class="event-log">
+            <h3 class="panel-title">events</h3>
+            <ul id="event-list"></ul>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="controls">
+        <label>L <input type="number" id="L-input" min="4" max="32" step="2" value="16"></label>
+        <label>T <input type="number" id="T-input" min="0.1" max="2.0" step="0.05" value="0.66"></label>
+        <label>t_w <input type="number" id="tw-input" min="10" max="100000" step="10" value="100"></label>
+        <label>t_obs <input type="number" id="tobs-input" min="100" max="1000000" step="100" value="1000"></label>
+        <label>τ_obs windows <input type="text" id="tau-input" value="10,100,1000,10000" size="20"></label>
+        <label>n_real <input type="number" id="nreal-input" min="1" max="32" value="1" title="realisations to average. n_real=1 is fast but noisy at small L; n_real=4-8 averages out single-trajectory fluctuation."></label>
+        <button id="restart-btn">run</button>
+    </div>
+    <div class="legend">
+        <span class="leg c-regime">c · committed (λ_A &lt; 0)</span>
+        <span class="leg s-regime">s · suspended (λ_A ≈ 0)</span>
+        <span class="leg r-regime">r · reset (λ_A &gt; 0)</span>
+    </div>
+</footer>
+
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+<script src="/static/glass/tab.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPA visualizer</title>
+    <link rel="stylesheet" href="/static/shell.css">
+</head>
+<body>
+
+<nav id="tab-nav">
+    <a href="/" class="tab-home active">MPA</a>
+    <a href="/tab/glass" class="tab-link">glass · aging</a>
+    <a href="/tab/quantum" class="tab-link">quantum · syndromes</a>
+    <a href="/tab/cross" class="tab-link">cross · glass + quantum</a>
+    <!-- brain-spectrum tab queued for next session per
+         docs/archive/migration/mpa_visualizer_migration_handoff.md phase 3 -->
+</nav>
+
+<main class="shell-hub">
+    <h1>MPA visualizer<span class="dim"> · multi-substrate viewer</span></h1>
+    <p class="lead">
+        Per-substrate tabs render the v8 MPA observables alongside the live
+        simulator. Each tab is independent — its own driver, its own SSE
+        connection, its own renderer. Pick one to start.
+    </p>
+    <ul class="tab-list" id="tab-list">
+        <li><a href="/tab/glass">
+            <div class="tab-name">glass · aging</div>
+            <div class="tab-blurb">Loading…</div>
+        </a></li>
+    </ul>
+</main>
+
+<script>
+fetch('/tabs.json')
+    .then(r => r.json())
+    .then(data => {
+        const ul = document.getElementById('tab-list');
+        ul.innerHTML = '';
+        for (const tab of data.tabs) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = tab.url;
+            a.innerHTML = `
+                <div class="tab-name">${tab.display_name}</div>
+                <div class="tab-blurb">${tab.blurb}</div>
+            `;
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+    })
+    .catch(err => {
+        console.error('failed to load /tabs.json', err);
+    });
+</script>
+
+</body>
+</html>

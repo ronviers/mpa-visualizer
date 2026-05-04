@@ -1,0 +1,21 @@
+# Python Compiler Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build and Environment Artifacts
+build/
+dist/
+*.egg-info/
+.venv/
+env/
+
+# Local Assets & Tools (Cloud Streamed Only)
+assets/
+Tools/
+
+# Local environment profile (contains live API keys; never commit)
+dev_profile.json
+
+# Claude Code local settings (per-machine)
+.claude/settings.local.json
