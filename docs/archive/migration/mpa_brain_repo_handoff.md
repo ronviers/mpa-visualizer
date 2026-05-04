@@ -1,5 +1,13 @@
 # Hand-off — `H:\mpa-brain\` repo creation
 
+> **STATUS: DONE — 2026-05-04.** The mpa-brain repo lives at
+> <https://github.com/ronviers/mpa-brain>. Initial commit `e47c2e5`
+> hit all six acceptance criteria. Follow-up substrate work is queued
+> at `H:/mpa-brain/docs/handoff_next_session.md`. This file is the
+> archived bridging copy preserved in mpa-visualizer for migration
+> history; the active forward-looking document is the
+> handoff_next_session.md in the mpa-brain repo.
+
 Self-contained brief for the next session, picks up cold. Goal: create
 the mpa-brain repo with the v8 substrate primitive working, FOOTING
 inheriting F-001/F-002/F-003 from this session, ready for visualizer

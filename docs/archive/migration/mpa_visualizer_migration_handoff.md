@@ -1,5 +1,16 @@
 # Hand-off — mpc-visualizer → mpa-visualizer migration
 
+> **STATUS: IN PROGRESS — 2026-05-04.** Phases 0, 2, 4 and partial 5
+> landed in commit `a333051` at <https://github.com/ronviers/mpa-visualizer>.
+> Glass / quantum / cross tabs are byte-identical ports. Remaining
+> work — Phase 1 archive moves, Phase 3 brain-spectrum tab + cross
+> 3-way extension, Phase 6 verification + close-out — is queued at
+> [`H:/mpa-visualizer/docs/handoff_next_session.md`](../../handoff_next_session.md).
+> The mpa-brain repo prerequisite for phase 3 is satisfied
+> (`mpa_brain_repo_handoff.md` is DONE). This file is the archived
+> bridging copy of the original migration plan; the active
+> forward-looking document is handoff_next_session.md linked above.
+
 Self-contained brief for the migration. Multi-session scope. Each
 phase below has a clear "done" criterion; a future session can pick up
 at any phase boundary. Do **not** start phase 3 (brain-spectrum tab)
